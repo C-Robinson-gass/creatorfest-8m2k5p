@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Creator Fest 2026 – All Stages | gassProductions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #030303;
+  --bg2: #0f0f0f;
+  --bg3: #1a1a1a;
+  --fg: #f0f0f0;
+  --muted: #777;
+  --gold: #FFE293;
+  --col-w: 370px;
+  --hdr-h: 62px;
+  --tab-h: 44px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--fg); font-family: 'Outfit', sans-serif; min-height: 100vh; }
+
+/* ── Header ── */
+.site-header {
+  background: #030303;
+  border-bottom: 1px solid #1e1e1e;
+  padding: 0 24px;
+  height: var(--hdr-h);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.hdr-logo { font-size: .6rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: #444; }
+.hdr-title { flex: 1; }
+.hdr-title h1 { font-size: 1rem; font-weight: 800; color: var(--gold); letter-spacing: .05em; text-transform: uppercase; }
+.hdr-title p { font-size: .7rem; color: var(--muted); margin-top: 1px; letter-spacing: .04em; }
+.clock {
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: .1em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Day tabs ── */
+.day-tabs {
+  background: var(--bg2);
+  border-bottom: 1px solid #1e1e1e;
+  padding: 0 24px;
+  display: flex;
+  gap: 0;
+  position: sticky;
+  top: var(--hdr-h);
+  z-index: 150;
+  height: var(--tab-h);
+  align-items: stretch;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  font-family: 'Outfit', sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 0 22px;
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--fg); }
+.tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── Stage legend ── */
+.stage-legend {
+  display: flex;
+  gap: 20px;
+  padding: 10px 24px;
+  background: var(--bg);
+  border-bottom: 1px solid #111;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: .65rem; font-weight: 600; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── Scroll wrap ── */
+.scroll-wrap { overflow-x: auto; padding: 16px 24px 80px; }
+.stages-grid { display: flex; gap: 14px; min-width: calc(3 * var(--col-w) + 28px); align-items: flex-start; }
+
+/* ── Stage column ── */
+.stage-col { width: var(--col-w); flex-shrink: 0; border-radius: 10px; overflow: hidden; border: 1px solid #1e1e1e; }
+.col-header {
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent, var(--gold));
+  padding: 10px 14px;
+  background: color-mix(in srgb, var(--accent, #FFE293) 10%, #0d0d0d);
+  border-top: 3px solid var(--accent, var(--gold));
+  position: sticky;
+  top: calc(var(--hdr-h) + var(--tab-h) + 2px);
+  z-index: 50;
+}
+.col-body { background: var(--bg2); }
+
+/* ── Cards ── */
+.card { padding: 11px 14px; border-bottom: 1px solid #181818; transition: background .12s; }
+.card:last-child { border-bottom: none; }
+.card-time {
+  font-size: .63rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--muted);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.dur { font-size: .58rem; color: #444; font-weight: 500; letter-spacing: .04em; }
+.card-title { font-size: .79rem; font-weight: 600; line-height: 1.35; color: var(--fg); }
+.card-speakers { font-size: .68rem; color: var(--muted); margin-top: 4px; font-weight: 400; line-height: 1.4; }
+.sess { background: var(--bg2); }
+.sess:hover { background: #151515; }
+.brk { background: #080808; }
+.brk-title { color: #444; font-size: .72rem; font-weight: 400; font-style: italic; }
+
+/* Live states */
+.card.live-now {
+  background: color-mix(in srgb, var(--accent) 15%, #0f0f0f) !important;
+  border-left: 3px solid var(--accent);
+  padding-left: 11px;
+}
+.card.live-now .card-time { color: var(--accent); }
+.card.live-now .card-title { color: #ffffff; font-weight: 700; }
+.live-dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1.2s ease-in-out infinite;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+@keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.4; transform:scale(.6); } }
+
+/* ── Footer ── */
+.foot {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #030303dd;
+  border-top: 1px solid #1a1a1a;
+  padding: 6px 24px;
+  font-size: .62rem;
+  color: #333;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  letter-spacing: .04em;
+}
+.foot b { color: #555; }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="hdr-logo">gass<br>Productions</div>
+  <div class="hdr-title">
+    <h1>Creator Fest 2026 — All Stages</h1>
+    <p>Magazine London, Greenwich &nbsp;&middot;&nbsp; 14–15 July 2026</p>
+  </div>
+  <div class="clock" id="clock">--:--:--</div>
+</header>
+
+<nav class="day-tabs">
+<button class="tab-btn active" onclick="switchDay(1)" id="tab-1">Day 1 – Tue 14 July</button><button class="tab-btn " onclick="switchDay(2)" id="tab-2">Day 2 – Wed 15 July</button>
+</nav>
+
+<div class="scroll-wrap">
+<div class="day-panel " id="day-1" data-date="2026-07-14">
+  <div class="stages-grid"><div class="stage-col" data-room="kantar_main" style="--accent:#009CA6;">
+  <div class="col-header">Kantar Main Stage</div>
+  <div class="col-body"><div class="card brk" data-start="09:00" data-end="09:25">
+  <div class="card-time">9:00am<span class="dur">25m</span></div>
+  <div class="card-title brk-title">Doors & Registration</div>
+</div><div class="card sess" data-start="09:25" data-end="09:30">
+  <div class="card-time">9:25am<span class="dur">5m</span></div>
+  <div class="card-title">Chair's Welcome</div>
+  <div class="card-speakers">Gordon Glenister</div>
+</div><div class="card sess" data-start="09:30" data-end="10:00">
+  <div class="card-time">9:30am<span class="dur">30m</span></div>
+  <div class="card-title">Making The Most Of The Subscription Model & Owning Your Community</div>
+  <div class="card-speakers">Rosie Gee + Natalie O'Neill</div>
+</div><div class="card brk" data-start="10:00" data-end="10:20">
+  <div class="card-time">10:00am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Coffee Break</div>
+</div><div class="card sess" data-start="10:20" data-end="10:50">
+  <div class="card-time">10:20am<span class="dur">30m</span></div>
+  <div class="card-title">From Coin Flip to Confidence: Scaling the Impact of Creator Marketing</div>
+  <div class="card-speakers">Vera Sidlova + 90's Baby Show + Khalid Almashgari</div>
+</div><div class="card brk" data-start="10:50" data-end="11:10">
+  <div class="card-time">10:50am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="11:10" data-end="11:50">
+  <div class="card-time">11:10am<span class="dur">40m</span></div>
+  <div class="card-title">Just Existing & Fully Thriving: Amber Rose Gill On How To Turn A Viral Moment Into A Career</div>
+  <div class="card-speakers">Amber Rose Gill + Imani Evans</div>
+</div><div class="card brk" data-start="11:50" data-end="12:05">
+  <div class="card-time">11:50am<span class="dur">15m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="12:05" data-end="12:35">
+  <div class="card-time">12:05pm<span class="dur">30m</span></div>
+  <div class="card-title">The New Creator's Toolkit – From Ideas to Audience, Fast</div>
+  <div class="card-speakers">Kladi + Suhit Amin + Siobhan Maroney</div>
+</div><div class="card brk" data-start="12:35" data-end="14:00">
+  <div class="card-time">12:35pm<span class="dur">1h 25m</span></div>
+  <div class="card-title brk-title">Lunch</div>
+</div><div class="card sess" data-start="14:00" data-end="14:30">
+  <div class="card-time">2:00pm<span class="dur">30m</span></div>
+  <div class="card-title">Your Influencer Strategy Is Broken. Stop Choosing Between Brand and Performance.</div>
+  <div class="card-speakers">Niklas Schwake</div>
+</div><div class="card brk" data-start="14:30" data-end="14:45">
+  <div class="card-time">2:30pm<span class="dur">15m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="14:45" data-end="15:15">
+  <div class="card-time">2:45pm<span class="dur">30m</span></div>
+  <div class="card-title">Scaling Community-Led Luxury: Growing A Luxury Brand Without Losing Its Je Ne Sais Quoi</div>
+  <div class="card-speakers">Elie Barnes + Jay Richards + Mathieu Couret</div>
+</div><div class="card brk" data-start="15:15" data-end="15:30">
+  <div class="card-time">3:15pm<span class="dur">15m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="15:30" data-end="16:00">
+  <div class="card-time">3:30pm<span class="dur">30m</span></div>
+  <div class="card-title">The Future is Live: How Streaming is Reshaping Entertainment Culture</div>
+  <div class="card-speakers">Pontus Eskilsson + NYKchazza + Frankie Ward + Chian Reynolds</div>
+</div><div class="card brk" data-start="16:00" data-end="16:15">
+  <div class="card-time">4:00pm<span class="dur">15m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="16:15" data-end="16:45">
+  <div class="card-time">4:15pm<span class="dur">30m</span></div>
+  <div class="card-title">Power to the paywall: Are you subscription-ready?</div>
+  <div class="card-speakers">Emi Geddes + Alice Benham</div>
+</div></div>
+</div><div class="stage-col" data-room="charlie_oscar_brand" style="--accent:#E8390E;">
+  <div class="col-header">Charlie Oscar Brand Stage</div>
+  <div class="col-body"><div class="card brk" data-start="09:00" data-end="09:25">
+  <div class="card-time">9:00am<span class="dur">25m</span></div>
+  <div class="card-title brk-title">Doors & Registration</div>
+</div><div class="card sess" data-start="09:25" data-end="09:30">
+  <div class="card-time">9:25am<span class="dur">5m</span></div>
+  <div class="card-title">Chair's Welcome</div>
+  <div class="card-speakers">Breno Bergamin</div>
+</div><div class="card sess" data-start="09:30" data-end="10:00">
+  <div class="card-time">9:30am<span class="dur">30m</span></div>
+  <div class="card-title">From Always-On to Always-Authentic: How Brands Leverage Partner Marketing to Scale Creator Campaigns</div>
+  <div class="card-speakers">Luke Nemorin + Nick Fletcher</div>
+</div><div class="card brk" data-start="10:00" data-end="10:20">
+  <div class="card-time">10:00am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Coffee Break</div>
+</div><div class="card sess" data-start="10:20" data-end="10:50">
+  <div class="card-time">10:20am<span class="dur">30m</span></div>
+  <div class="card-title">We Need to Touch Grass: An Influencer Industry Intervention</div>
+  <div class="card-speakers">Emily English + Olivia Mitchell-Bent + Sasha Jeppesen + James Connelly + Misha Metcalfe</div>
+</div><div class="card brk" data-start="10:50" data-end="12:00">
+  <div class="card-time">10:50am<span class="dur">1h 10m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="12:00" data-end="12:30">
+  <div class="card-time">12:00pm<span class="dur">30m</span></div>
+  <div class="card-title">Scaling Creator Marketing Without Killing Creativity</div>
+  <div class="card-speakers">Emma Odendaal + Will Cooke + Andre van Niekerk + Joel Marlinarson</div>
+</div><div class="card brk" data-start="12:30" data-end="14:00">
+  <div class="card-time">12:30pm<span class="dur">1h 30m</span></div>
+  <div class="card-title brk-title">Lunch</div>
+</div><div class="card sess" data-start="14:00" data-end="14:30">
+  <div class="card-time">2:00pm<span class="dur">30m</span></div>
+  <div class="card-title">The Secret Sauce: How M&S Food Scales and Manages Exponential Social Growth</div>
+  <div class="card-speakers">Jessica Jolee + Laura Crosby</div>
+</div><div class="card brk" data-start="14:30" data-end="14:45">
+  <div class="card-time">2:30pm<span class="dur">15m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="14:45" data-end="15:15">
+  <div class="card-time">2:45pm<span class="dur">30m</span></div>
+  <div class="card-title">Roblox, The New Social Media Platform</div>
+  <div class="card-speakers">Jonathan Gustavii</div>
+</div><div class="card brk" data-start="15:15" data-end="15:45">
+  <div class="card-time">3:15pm<span class="dur">30m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="15:45" data-end="16:15">
+  <div class="card-time">3:45pm<span class="dur">30m</span></div>
+  <div class="card-title">Dear Brands: Let's Talk About Your Influencer Briefs</div>
+  <div class="card-speakers">Alex Payne + Andrea Arhagba</div>
+</div><div class="card brk" data-start="16:15" data-end="16:30">
+  <div class="card-time">4:15pm<span class="dur">15m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="16:30" data-end="17:00">
+  <div class="card-time">4:30pm<span class="dur">30m</span></div>
+  <div class="card-title">Building Creator Wealth: Securing A Book Deal</div>
+  <div class="card-speakers">Abi Feltham + Hayley Stevens-Shaw</div>
+</div></div>
+</div><div class="stage-col" data-room="youtube_creator" style="--accent:#FF0000;">
+  <div class="col-header">YouTube Creator Stage</div>
+  <div class="col-body"><div class="card brk" data-start="09:00" data-end="09:25">
+  <div class="card-time">9:00am<span class="dur">25m</span></div>
+  <div class="card-title brk-title">Doors & Registration</div>
+</div><div class="card sess" data-start="09:25" data-end="09:30">
+  <div class="card-time">9:25am<span class="dur">5m</span></div>
+  <div class="card-title">Chair's Welcome</div>
+  <div class="card-speakers">Adam Faulkner</div>
+</div><div class="card sess" data-start="09:30" data-end="10:00">
+  <div class="card-time">9:30am<span class="dur">30m</span></div>
+  <div class="card-title">Building Creator Wealth: Crafting A Content Career Without Quitting Your Day Job</div>
+  <div class="card-speakers">Dom Smales + Daisy Rose + Mia Ferreira + Bita Jedo</div>
+</div><div class="card brk" data-start="10:00" data-end="10:20">
+  <div class="card-time">10:00am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Coffee Break</div>
+</div><div class="card sess" data-start="10:20" data-end="10:50">
+  <div class="card-time">10:20am<span class="dur">30m</span></div>
+  <div class="card-title">Build Your Business on TikTok: Starting with What You Love</div>
+  <div class="card-speakers">Esther Smyth + Brandon Smith + Toby Inskip + Meliz Berg</div>
+</div><div class="card brk" data-start="10:50" data-end="11:10">
+  <div class="card-time">10:50am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="11:10" data-end="11:40">
+  <div class="card-time">11:10am<span class="dur">30m</span></div>
+  <div class="card-title">Conquering BeautyTok: Standing Out In An Overcrowded Market</div>
+  <div class="card-speakers">Anna Sheri + Farron Clark</div>
+</div><div class="card brk" data-start="11:40" data-end="12:00">
+  <div class="card-time">11:40am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="12:00" data-end="12:30">
+  <div class="card-time">12:00pm<span class="dur">30m</span></div>
+  <div class="card-title">The Long Game: Building an Audience and Owning It</div>
+  <div class="card-speakers">Jake Lee + Sami Qasem + Amelia Sordell + Ben Chaunavel</div>
+</div><div class="card brk" data-start="12:30" data-end="14:00">
+  <div class="card-time">12:30pm<span class="dur">1h 30m</span></div>
+  <div class="card-title brk-title">Lunch</div>
+</div><div class="card sess" data-start="14:00" data-end="14:30">
+  <div class="card-time">2:00pm<span class="dur">30m</span></div>
+  <div class="card-title">Building Creator Wealth: Taking The Leap & Going Full Time</div>
+  <div class="card-speakers">Lauren Leyva + Niall MacMillan + Justin Girdler + Hala Al-Ajil</div>
+</div><div class="card brk" data-start="14:30" data-end="14:50">
+  <div class="card-time">2:30pm<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="14:50" data-end="15:20">
+  <div class="card-time">2:50pm<span class="dur">30m</span></div>
+  <div class="card-title">The IRL Advantage: Why the Next Creator Boom Happens Offline</div>
+  <div class="card-speakers">Yalin Solmaz + Lapsley + Mary-Havana Little + Zack Pinsent</div>
+</div><div class="card brk" data-start="15:20" data-end="15:40">
+  <div class="card-time">3:20pm<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="15:40" data-end="16:10">
+  <div class="card-time">3:40pm<span class="dur">30m</span></div>
+  <div class="card-title">What Most Creators Get Wrong (And How To Fix It)</div>
+  <div class="card-speakers">Ido Mart + Grace Andrews</div>
+</div><div class="card brk" data-start="16:10" data-end="16:30">
+  <div class="card-time">4:10pm<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="16:30" data-end="17:00">
+  <div class="card-time">4:30pm<span class="dur">30m</span></div>
+  <div class="card-title">The Most Trusted Creator Already Works for You</div>
+  <div class="card-speakers">Yessi Bello-Perez + Matt Green + Bianca Brown</div>
+</div></div>
+</div></div>
+</div><div class="day-panel hidden" id="day-2" data-date="2026-07-15">
+  <div class="stages-grid"><div class="stage-col" data-room="kantar_main" style="--accent:#009CA6;">
+  <div class="col-header">Kantar Main Stage</div>
+  <div class="col-body"><div class="card brk" data-start="09:00" data-end="09:25">
+  <div class="card-time">9:00am<span class="dur">25m</span></div>
+  <div class="card-title brk-title">Doors & Registration</div>
+</div><div class="card sess" data-start="09:25" data-end="09:30">
+  <div class="card-time">9:25am<span class="dur">5m</span></div>
+  <div class="card-title">Chair's Welcome</div>
+  <div class="card-speakers">Jay Richards</div>
+</div><div class="card sess" data-start="09:30" data-end="10:00">
+  <div class="card-time">9:30am<span class="dur">30m</span></div>
+  <div class="card-title">The Creator Economy Grows Up: Policy, Progress, and the Path Ahead</div>
+  <div class="card-speakers">Scott Guthrie + Lord Ed Vaizey + Murphy Hopkins-Hubbard + Dr Simon Clark</div>
+</div><div class="card brk" data-start="10:00" data-end="10:20">
+  <div class="card-time">10:00am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Coffee Break</div>
+</div><div class="card sess" data-start="10:20" data-end="10:50">
+  <div class="card-time">10:20am<span class="dur">30m</span></div>
+  <div class="card-title">Escape The Algorithm: How To Build Genuine Connection In The Year Of Intentional Content Consumption</div>
+  <div class="card-speakers">Annabel Harris</div>
+</div><div class="card brk" data-start="10:50" data-end="11:10">
+  <div class="card-time">10:50am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="11:10" data-end="11:40">
+  <div class="card-time">11:10am<span class="dur">30m</span></div>
+  <div class="card-title">Frugal Chic – Building a Premium Brand Without Premium Spending</div>
+  <div class="card-speakers">Mia McGrath</div>
+</div><div class="card brk" data-start="11:40" data-end="12:00">
+  <div class="card-time">11:40am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="12:00" data-end="12:30">
+  <div class="card-time">12:00pm<span class="dur">30m</span></div>
+  <div class="card-title">Testing, Testing: The Metrics You Need In 2026</div>
+  <div class="card-speakers">Hannah Saycell + Zac Alsop + Farron Clark + Alice Gray</div>
+</div><div class="card brk" data-start="12:30" data-end="14:00">
+  <div class="card-time">12:30pm<span class="dur">1h 30m</span></div>
+  <div class="card-title brk-title">Lunch</div>
+</div><div class="card sess" data-start="14:00" data-end="14:30">
+  <div class="card-time">2:00pm<span class="dur">30m</span></div>
+  <div class="card-title">Make it Your Way On TikTok</div>
+  <div class="card-speakers">Lily Hall + Joe Hampton + Sam Cornforth + Evelyn Edwards</div>
+</div><div class="card brk" data-start="14:30" data-end="14:45">
+  <div class="card-time">2:30pm<span class="dur">15m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="14:45" data-end="15:15">
+  <div class="card-time">2:45pm<span class="dur">30m</span></div>
+  <div class="card-title">Inside The Studio: How Creators Are Rewriting The Rules Of Entertainment</div>
+  <div class="card-speakers">Paige Smith + Georgia Goodwin</div>
+</div><div class="card brk" data-start="15:15" data-end="15:30">
+  <div class="card-time">3:15pm<span class="dur">15m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="15:30" data-end="16:10">
+  <div class="card-time">3:30pm<span class="dur">40m</span></div>
+  <div class="card-title">Why Creator Wellbeing MUST BE Number One Priority In 2026</div>
+  <div class="card-speakers">Charlotte Stavrou + Rebecca Johnson-Honey + Millie Gooch + Giselle Elsom</div>
+</div></div>
+</div><div class="stage-col" data-room="charlie_oscar_brand" style="--accent:#E8390E;">
+  <div class="col-header">Charlie Oscar Brand Stage</div>
+  <div class="col-body"><div class="card brk" data-start="09:00" data-end="09:25">
+  <div class="card-time">9:00am<span class="dur">25m</span></div>
+  <div class="card-title brk-title">Doors & Registration</div>
+</div><div class="card sess" data-start="09:25" data-end="09:30">
+  <div class="card-time">9:25am<span class="dur">5m</span></div>
+  <div class="card-title">Chair's Welcome</div>
+  <div class="card-speakers">Iain Ward</div>
+</div><div class="card sess" data-start="09:30" data-end="10:00">
+  <div class="card-time">9:30am<span class="dur">30m</span></div>
+  <div class="card-title">What the World's Biggest Brands Actually Want From Creators</div>
+  <div class="card-speakers">Daniele Tundo + Anastasia Leng + Jen Cho</div>
+</div><div class="card brk" data-start="10:00" data-end="10:20">
+  <div class="card-time">10:00am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Coffee Break</div>
+</div><div class="card sess" data-start="10:20" data-end="10:50">
+  <div class="card-time">10:20am<span class="dur">30m</span></div>
+  <div class="card-title">Licence to Influence: How We Built the Creator Campaign Behind 007 First Light</div>
+  <div class="card-speakers">Rabea Reiber + Michael Zambonini</div>
+</div><div class="card brk" data-start="10:50" data-end="11:10">
+  <div class="card-time">10:50am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="11:10" data-end="11:40">
+  <div class="card-time">11:10am<span class="dur">30m</span></div>
+  <div class="card-title">Redefining Long-Term Creator Relationships In The Fight Against 'Authenticity'</div>
+  <div class="card-speakers">Sylvia Brendel + Luis Elkes + Justin Girdler</div>
+</div><div class="card brk" data-start="11:40" data-end="12:00">
+  <div class="card-time">11:40am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="12:00" data-end="12:30">
+  <div class="card-time">12:00pm<span class="dur">30m</span></div>
+  <div class="card-title">Inspiring Creativity In A World Trending Towards AI Slop</div>
+  <div class="card-speakers">Sadie Daryan Safa + Doddz + Gordon Glenister + Harvey King</div>
+</div><div class="card brk" data-start="12:30" data-end="14:00">
+  <div class="card-time">12:30pm<span class="dur">1h 30m</span></div>
+  <div class="card-title brk-title">Lunch</div>
+</div><div class="card sess" data-start="14:00" data-end="14:30">
+  <div class="card-time">2:00pm<span class="dur">30m</span></div>
+  <div class="card-title">Make The Algorithm Pay You Back: How Creator Content Can Earn Again And Again</div>
+  <div class="card-speakers">Alex Hick</div>
+</div><div class="card brk" data-start="14:30" data-end="14:45">
+  <div class="card-time">2:30pm<span class="dur">15m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="14:45" data-end="15:15">
+  <div class="card-time">2:45pm<span class="dur">30m</span></div>
+  <div class="card-title">Going Analogue: Is Offline the New Online?</div>
+  <div class="card-speakers">Hannah Ngakane + Naji Basma</div>
+</div><div class="card brk" data-start="15:15" data-end="15:45">
+  <div class="card-time">3:15pm<span class="dur">30m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="15:45" data-end="16:15">
+  <div class="card-time">3:45pm<span class="dur">30m</span></div>
+  <div class="card-title">Behind the Collab: How Skyscanner Finds and Forges the Perfect Creator Partnerships</div>
+  <div class="card-speakers">Jen Rankine + Rob Adcock + Sofia Aira</div>
+</div></div>
+</div><div class="stage-col" data-room="youtube_creator" style="--accent:#FF0000;">
+  <div class="col-header">YouTube Creator Stage</div>
+  <div class="col-body"><div class="card brk" data-start="09:00" data-end="09:25">
+  <div class="card-time">9:00am<span class="dur">25m</span></div>
+  <div class="card-title brk-title">Doors & Registration</div>
+</div><div class="card sess" data-start="09:25" data-end="09:30">
+  <div class="card-time">9:25am<span class="dur">5m</span></div>
+  <div class="card-title">Chair's Welcome</div>
+  <div class="card-speakers">Jade Beason</div>
+</div><div class="card sess" data-start="09:30" data-end="10:00">
+  <div class="card-time">9:30am<span class="dur">30m</span></div>
+  <div class="card-title">Building Creator Wealth: Scaling Your Niche & Diversifying Income Streams</div>
+  <div class="card-speakers">Alice Benham + Gabriel Nussbaum + Francesca Tighinean + Yasar Ahmad</div>
+</div><div class="card brk" data-start="10:00" data-end="10:20">
+  <div class="card-time">10:00am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Coffee Break</div>
+</div><div class="card sess" data-start="10:20" data-end="10:50">
+  <div class="card-time">10:20am<span class="dur">30m</span></div>
+  <div class="card-title">Getting started on Twitch</div>
+  <div class="card-speakers">Josh Bloom + Cheape</div>
+</div><div class="card brk" data-start="10:50" data-end="11:10">
+  <div class="card-time">10:50am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="11:10" data-end="11:40">
+  <div class="card-time">11:10am<span class="dur">30m</span></div>
+  <div class="card-title">Wait.. That's Not Legal?! The Legal Mistakes You Are Making Online</div>
+  <div class="card-speakers">Elisa Volpi</div>
+</div><div class="card brk" data-start="11:40" data-end="12:00">
+  <div class="card-time">11:40am<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="12:00" data-end="12:30">
+  <div class="card-time">12:00pm<span class="dur">30m</span></div>
+  <div class="card-title">From Memes To Big Dreams: Hunsnet Founder On Creating A Joyous Brand From Humble Beginnings</div>
+  <div class="card-speakers">Gareth Howells</div>
+</div><div class="card brk" data-start="12:30" data-end="14:00">
+  <div class="card-time">12:30pm<span class="dur">1h 30m</span></div>
+  <div class="card-title brk-title">Lunch</div>
+</div><div class="card sess" data-start="14:00" data-end="14:30">
+  <div class="card-time">2:00pm<span class="dur">30m</span></div>
+  <div class="card-title">Get Shopping with YouTube – The Future of YouTube Shopping</div>
+  <div class="card-speakers">Rajarshi Lahiri + Tim Dessaint + Maddie Borge</div>
+</div><div class="card brk" data-start="14:30" data-end="14:50">
+  <div class="card-time">2:30pm<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="14:50" data-end="15:20">
+  <div class="card-time">2:50pm<span class="dur">30m</span></div>
+  <div class="card-title">Creators as Entrepreneurs</div>
+  <div class="card-speakers">Mazviona Madzima + Eleanor Neale + Robbie Lyle + Lauren Jumps</div>
+</div><div class="card brk" data-start="15:20" data-end="15:40">
+  <div class="card-time">3:20pm<span class="dur">20m</span></div>
+  <div class="card-title brk-title">Break</div>
+</div><div class="card sess" data-start="15:40" data-end="16:10">
+  <div class="card-time">3:40pm<span class="dur">30m</span></div>
+  <div class="card-title">Unlock Brand Deals on YouTube – Inside a Successful Brand Deal</div>
+  <div class="card-speakers">Izzy Ngo + Niki Albon + Britt Bagnall + Nick and Cam + Sirach Mendes</div>
+</div></div>
+</div></div>
+</div>
+</div>
+
+<footer class="foot">
+  <b>Creator Fest 2026</b> &nbsp;&middot;&nbsp; Kantar Main Stage &nbsp;&middot;&nbsp; Charlie Oscar Brand Stage &nbsp;&middot;&nbsp; YouTube Creator Stage &nbsp;&middot;&nbsp; Run sheet by gassProductions
+</footer>
+
+<script>
+const DAY_DATES = { "1": "2026-07-14", "2": "2026-07-15" };
+
+function switchDay(n) {
+  document.querySelectorAll('.day-panel').forEach(p => p.classList.add('hidden'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('day-' + n);
+  const btn = document.getElementById('tab-' + n);
+  if (panel) panel.classList.remove('hidden');
+  if (btn) btn.classList.add('active');
+}
+
+// Clock
+(function tickClock() {
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  document.getElementById('clock').textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  setTimeout(tickClock, 1000);
+})();
+
+// toMins
+function toMins(t) {
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+}
+
+// Live tracking
+function updateLive() {
+  const now = new Date();
+  const today = now.toISOString().slice(0, 10);
+  const curMins = now.getHours() * 60 + now.getMinutes();
+  
+  // Auto-switch to today's day tab
+  for (const [n, date] of Object.entries(DAY_DATES)) {
+    if (date === today) {
+      switchDay(Number(n));
+      break;
+    }
+  }
+  
+  // Apply live highlights
+  document.querySelectorAll('.stage-col').forEach(col => {
+    const accent = getComputedStyle(col).getPropertyValue('--accent').trim() || '#FFE293';
+    col.querySelectorAll('.card').forEach(card => {
+      const cs = card.dataset.start, ce = card.dataset.end;
+      if (!cs || !ce) return;
+      const sm = toMins(cs), em = toMins(ce);
+      const isLive = curMins >= sm && curMins < em;
+      
+      // Remove any existing dot
+      card.querySelectorAll('.live-dot').forEach(d => d.remove());
+      
+      if (isLive) {
+        card.classList.add('live-now');
+        card.style.setProperty('--accent', accent);
+        const dot = document.createElement('span');
+        dot.className = 'live-dot';
+        card.querySelector('.card-time')?.appendChild(dot);
+      } else {
+        card.classList.remove('live-now');
+        card.style.removeProperty('--accent');
+      }
+    });
+  });
+}
+
+setInterval(updateLive, 20000);
+updateLive();
+</script>
+</body>
+</html>
