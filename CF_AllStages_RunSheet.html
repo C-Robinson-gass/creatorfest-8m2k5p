@@ -93,7 +93,7 @@ body { background: var(--bg); color: var(--fg); font-family: 'Outfit', sans-seri
 .stages-grid { display: flex; gap: 14px; min-width: calc(3 * var(--col-w) + 28px); align-items: flex-start; }
 
 /* ── Stage column ── */
-.stage-col { width: var(--col-w); flex-shrink: 0; border-radius: 10px; overflow: hidden; border: 1px solid #1e1e1e; }
+.stage-col { width: var(--col-w); flex-shrink: 0; border-radius: 10px; border: 1px solid #1e1e1e; }
 .col-header {
   font-size: .65rem;
   font-weight: 800;
@@ -101,13 +101,15 @@ body { background: var(--bg); color: var(--fg); font-family: 'Outfit', sans-seri
   text-transform: uppercase;
   color: var(--accent, var(--gold));
   padding: 10px 14px;
-  background: color-mix(in srgb, var(--accent, #FFE293) 10%, #0d0d0d);
+  background: #0d0d0d;
+  background: color-mix(in srgb, var(--accent, #FFE293) 12%, #0d0d0d);
   border-top: 3px solid var(--accent, var(--gold));
+  border-radius: 9px 9px 0 0;
   position: sticky;
   top: calc(var(--hdr-h) + var(--tab-h) + 2px);
   z-index: 50;
 }
-.col-body { background: var(--bg2); }
+.col-body { background: var(--bg2); border-radius: 0 0 9px 9px; overflow: hidden; }
 
 /* ── Cards ── */
 .card { padding: 11px 14px; border-bottom: 1px solid #181818; transition: background .12s; }
